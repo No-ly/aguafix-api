@@ -1,0 +1,34 @@
+meta {
+  name: 4 Crear reporte
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/reports
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "address": "Av. Reforma 123, esquina con Juarez",
+    "description": "Brota agua del pavimento, se hizo un charco grande",
+    "severity": "high",
+    "reporterPhone": "4771234567"
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: isDefined
+  res.body.isResolved: eq false
+  res.body.createdAt: isDefined
+}
+
+script:post-response {
+  // Guarda el id del reporte recien creado por si se quiere encadenar.
+  if (res.getStatus() === 201) {
+    bru.setEnvVar("reportId", res.getBody().id);
+  }
+}

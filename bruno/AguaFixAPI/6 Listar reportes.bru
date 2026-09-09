@@ -1,0 +1,15 @@
+meta {
+  name: 6 Listar reportes
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/reports
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body: isArray
+}

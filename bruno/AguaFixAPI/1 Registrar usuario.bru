@@ -1,0 +1,26 @@
+meta {
+  name: 1 Registrar usuario
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/auth/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Cuadrilla Norte",
+    "email": "norte@aguafix.gob.mx",
+    "password": "secreta123",
+    "isNotificationEnabled": true
+  }
+}
+
+assert {
+  res.status: eq 201
+  res.body.id: isDefined
+  res.body.password: isUndefined
+}
